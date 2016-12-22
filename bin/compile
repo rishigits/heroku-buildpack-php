@@ -98,7 +98,7 @@ mkdir -p $build_dir/.heroku/php-min
 ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
 
 #rishi -> use internal http server
-curl_retry_on_18 --silent --location -o $build_dir/.heroku/php-min.tar.gz "http://9.26.155.191/s390x/buildpacks/php7-7.0.8-linux-s390x.tgz" || error "Failed to download minimal PHP for bootstrapping.
+curl_retry_on_18 --silent --location -o $build_dir/.heroku/php-min.tar.gz "http://9.26.155.191/s390x/buildpacks/php-min-7.0.14.tar.gz" || error "Failed to download minimal PHP for bootstrapping.
 Please try again, or contact support if this problem persists."
 tar xzf $build_dir/.heroku/php-min.tar.gz -C $build_dir/.heroku/php-min
 rm $build_dir/.heroku/php-min.tar.gz
