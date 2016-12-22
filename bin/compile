@@ -114,7 +114,7 @@ composer() {
     /app/.heroku/php-min/bin/php /app/.heroku/php/bin/composer "$@"
 }
 export -f composer
-
+status "exported composer..."
 composer_vendordir=$(composer config vendor-dir)
 composer_bindir=$(composer config bin-dir)
 
@@ -123,6 +123,7 @@ composer_bindir=$(composer config bin-dir)
 echo "export PATH=/app/.heroku/php/bin:\$PATH:/app/$composer_bindir" > $bp_dir/export
 # make sure Composer and binaries for it are on the path at runtime
 # composer bin-dir goes last to avoid any conflicts
+status "echoing path to compose.sh..."
 mkdir -p $build_dir/.profile.d
 echo "export PATH=\$HOME/.heroku/php/bin:\$PATH:\$HOME/$composer_bindir" > $build_dir/.profile.d/100-composer.sh
 
