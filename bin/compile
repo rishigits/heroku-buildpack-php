@@ -115,8 +115,11 @@ composer() {
 }
 export -f composer
 status "exported composer..."
-composer_vendordir=$(composer config vendor-dir)
-composer_bindir=$(composer config bin-dir)
+#rishi composer_vendordir=$(composer config vendor-dir)
+#rishi composer_bindir=$(composer config bin-dir)
+
+composer_vendordir=vendor
+composer_bindir=bin
 
 # packages that get installed will add to this file, it's both for us and for buildpacks that follow
 # composer bin-dir goes last to avoid any conflicts
