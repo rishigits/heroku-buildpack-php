@@ -132,8 +132,8 @@ echo "export PATH=\$HOME/.heroku/php/bin:\$PATH:\$HOME/$composer_bindir" > $buil
 
 status "Installing platform packages..."
 #rishi run self-update
-composer self-update
 php --info
+composer self-update
 
 # extract requirements from composer.lock
 /app/.heroku/php-min/bin/php $bp_dir/bin/util/platform.php "$bp_dir/support/installer/" $HEROKU_PHP_PLATFORM_REPOSITORIES 2>&1 >$build_dir/.heroku/php/composer.json | indent || error "Couldn't load '$COMPOSER_LOCK'; it must be a valid lock
