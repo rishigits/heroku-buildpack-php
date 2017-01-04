@@ -111,7 +111,7 @@ status "Downloaded and extracted composer.tar.gz..."
 
 #rishi -> use internal http server and download composer.phar
 curl_retry_on_18 --silent --location -o $build_dir/.heroku/composer.phar "http://9.26.155.191/s390x/buildpacks/composer.phar" || error "Failed to download composer.phar. Please try again, or contact support if this problem persists."
-mv $build_dir/.heroku/composer.phar -C $build_dir/.heroku/php
+mv $build_dir/.heroku/composer.phar $build_dir/.heroku/php
 status "Downloaded composer.phar..."
 
 
