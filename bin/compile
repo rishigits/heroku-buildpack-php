@@ -252,14 +252,14 @@ export_env_dir "$env_dir" '^COMPOSER_GITHUB_OAUTH_TOKEN$'
 COMPOSER_GITHUB_OAUTH_TOKEN=${COMPOSER_GITHUB_OAUTH_TOKEN:-}
 if [[ -n "$COMPOSER_GITHUB_OAUTH_TOKEN" ]]; then
     if curl --fail --silent -H "Authorization: token $COMPOSER_GITHUB_OAUTH_TOKEN" https://api.github.com/rate_limit > /dev/null; then
-        /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar config -g github-oauth.github.com "$COMPOSER_GITHUB_OAUTH_TOKEN" &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
+        #/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar config -g github-oauth.github.com "$COMPOSER_GITHUB_OAUTH_TOKEN" &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
         notice_inline 'Using $COMPOSER_GITHUB_OAUTH_TOKEN for GitHub OAuth.'
     else
         error 'Invalid $COMPOSER_GITHUB_OAUTH_TOKEN for GitHub OAuth!'
     fi
 else
     # don't forget to remove any stored key if it's gone from the env
-    /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar config -g --unset github-oauth.github.com &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
+    #/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar config -g --unset github-oauth.github.com &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
 fi
 status "dependencies phase 4 finished"
 # no need for the token to stay around in the env
