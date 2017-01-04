@@ -171,17 +171,17 @@ all required extensions are available for the desired runtimes.
 
 For reference, the following runtimes are currently available:
 
-PHP:  $(composer show -d "$build_dir/.heroku/php" --available heroku-sys/php 2>&1 | sed -n 's/^versions : //p' | fold -s -w 58 || true)
-HHVM: $(composer show -d "$build_dir/.heroku/php" --available heroku-sys/hhvm 2>&1 | sed -n 's/^versions : //p' | fold -s -w 58 || true)
+PHP:  $(/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar show -d "$build_dir/.heroku/php" --available heroku-sys/php 2>&1 | sed -n 's/^versions : //p' | fold -s -w 58 || true)
+HHVM: $(/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar show -d "$build_dir/.heroku/php" --available heroku-sys/hhvm 2>&1 | sed -n 's/^versions : //p' | fold -s -w 58 || true)
 
 For a list of supported runtimes & extensions on Heroku, please
 refer to: https://devcenter.heroku.com/articles/php-support"
 fi
 
-if composer show -d "$build_dir/.heroku/php" --installed --quiet heroku-sys/php 2>/dev/null; then
+if /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar show -d "$build_dir/.heroku/php" --installed --quiet heroku-sys/php 2>/dev/null; then
     engine="php"
     engine_r="php -r"
-elif composer show -d "$build_dir/.heroku/php" --installed --quiet heroku-sys/hhvm 2>/dev/null; then
+elif /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar show -d "$build_dir/.heroku/php" --installed --quiet heroku-sys/hhvm 2>/dev/null; then
     engine="hhvm"
     engine_r="hhvm --php -r"
 fi
@@ -190,7 +190,7 @@ fi
 export COMPOSER="$COMPOSER_bak"
 unset COMPOSER_bak
 
-composer validate --no-check-publish --no-check-all --quiet "$COMPOSER" 2>/dev/null || warning "Your '$COMPOSER_LOCK' is not up to date with the latest
+/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar validate --no-check-publish --no-check-all --quiet "$COMPOSER" 2>/dev/null || warning "Your '$COMPOSER_LOCK' is not up to date with the latest
 changes in '$COMPOSER'. To ensure you are not getting stale
 dependencies, run 'composer update' on your machine and commit
 any changes to Git before pushing again."
@@ -217,12 +217,12 @@ if [[ -f "composer.phar" ]]; then
         $engine composer.phar "$@"
     }
     export -f composer
-    composer --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
+    /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
     notice_inline "Using '/composer.phar' to install dependencies."
 fi
 # echo composer version for info purposes
 # tail to get rid of outdated version warnings (Composer sends those to STDOUT instead of STDERR)
-composer --version 2> /dev/null | tail -n 1 | indent
+/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar --version 2> /dev/null | tail -n 1 | indent
 
 # throw a notice if people have added their vendor dir to Git; that's bad practice and makes everything slow and cluttered
 if [[ -f "$composer_vendordir/autoload.php" && -d "$composer_vendordir/composer" ]]; then
@@ -249,28 +249,28 @@ export_env_dir "$env_dir" '^COMPOSER_GITHUB_OAUTH_TOKEN$'
 COMPOSER_GITHUB_OAUTH_TOKEN=${COMPOSER_GITHUB_OAUTH_TOKEN:-}
 if [[ -n "$COMPOSER_GITHUB_OAUTH_TOKEN" ]]; then
     if curl --fail --silent -H "Authorization: token $COMPOSER_GITHUB_OAUTH_TOKEN" https://api.github.com/rate_limit > /dev/null; then
-        composer config -g github-oauth.github.com "$COMPOSER_GITHUB_OAUTH_TOKEN" &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
+        /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar config -g github-oauth.github.com "$COMPOSER_GITHUB_OAUTH_TOKEN" &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
         notice_inline 'Using $COMPOSER_GITHUB_OAUTH_TOKEN for GitHub OAuth.'
     else
         error 'Invalid $COMPOSER_GITHUB_OAUTH_TOKEN for GitHub OAuth!'
     fi
 else
     # don't forget to remove any stored key if it's gone from the env
-    composer config -g --unset github-oauth.github.com &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
+    /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar config -g --unset github-oauth.github.com &> /dev/null # redirect outdated version warnings (Composer sends those to STDOUT instead of STDERR)
 fi
 # no need for the token to stay around in the env
 unset COMPOSER_GITHUB_OAUTH_TOKEN
 
 # install dependencies unless composer.json is completely empty (in which case it'd talk to packagist.org which may be slow and is unnecessary)
 export_env_dir "$env_dir" '^[A-Z_][A-Z0-9_]*$' '^(HOME|PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH|LD_LIBRARY_PATH|STACK|REQUEST_ID|IFS|HEROKU_PHP_INSTALL_DEV)$'
-cat "$COMPOSER" | python -c 'import sys,json; sys.exit(not json.load(sys.stdin));' && composer install ${HEROKU_PHP_INSTALL_DEV-"--no-dev"} --prefer-dist --optimize-autoloader --no-interaction 2>&1 | indent
+cat "$COMPOSER" | python -c 'import sys,json; sys.exit(not json.load(sys.stdin));' && /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar install ${HEROKU_PHP_INSTALL_DEV-"--no-dev"} --prefer-dist --optimize-autoloader --no-interaction 2>&1 | indent
 
-composer show --installed heroku/heroku-buildpack-php &> /dev/null && error "Your '$COMPOSER' requires 'heroku/heroku-buildpack-php'.
+/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar show --installed heroku/heroku-buildpack-php &> /dev/null && error "Your '$COMPOSER' requires 'heroku/heroku-buildpack-php'.
 This package may only be used as a dependency in 'require-dev'!"
 
 if cat "$COMPOSER" | python -c 'import sys,json; sys.exit("compile" not in json.load(sys.stdin).get("scripts", {}));'; then
     status "Running 'composer compile'..."
-    composer run-script ${HEROKU_PHP_INSTALL_DEV-"--no-dev"} --no-interaction compile 2>&1 | indent
+    /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar run-script ${HEROKU_PHP_INSTALL_DEV-"--no-dev"} --no-interaction compile 2>&1 | indent
 fi
 
 status "Preparing runtime environment..."
