@@ -109,6 +109,8 @@ tar xzf $build_dir/.heroku/composer.tar.gz -C $build_dir/.heroku/php
 rm $build_dir/.heroku/composer.tar.gz
 status "Downloaded and extracted composer.tar.gz..."
 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/.heroku/php-min/lib:/app/.heroku/php-min/usr/lib
+
 # this alias is just for now while we install platform packages
 composer() {
     /app/.heroku/php-min/bin/php /app/.heroku/php/bin/composer "$@"
