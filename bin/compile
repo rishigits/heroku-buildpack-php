@@ -195,17 +195,17 @@ changes in '$COMPOSER'. To ensure you are not getting stale
 dependencies, run 'composer update' on your machine and commit
 any changes to Git before pushing again."
 
-# clean up
-rm -rf /app/.heroku/php-min $build_dir/.heroku/php-min
-unset -f composer
+# clean up rishi - leave this for dependencies
+#rm -rf /app/.heroku/php-min $build_dir/.heroku/php-min
+#unset -f composer
 
 # earlier we wrote at least one $PATH entry that we'll need now, and installed packages will likely have added to it too
 source $bp_dir/export
 
-composer() {
-    $engine $(which composer) "$@"
-}
-export -f composer
+#rishi composer() {
+#    $engine $(which composer) "$@"
+#}
+#export -f composer
 
 status "Installing dependencies..."
 
@@ -268,7 +268,7 @@ unset COMPOSER_GITHUB_OAUTH_TOKEN
 
 # install dependencies unless composer.json is completely empty (in which case it'd talk to packagist.org which may be slow and is unnecessary)
 export_env_dir "$env_dir" '^[A-Z_][A-Z0-9_]*$' '^(HOME|PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH|LD_LIBRARY_PATH|STACK|REQUEST_ID|IFS|HEROKU_PHP_INSTALL_DEV)$'
-cat "$COMPOSER" | python -c 'import sys,json; sys.exit(not json.load(sys.stdin));' && composer install ${HEROKU_PHP_INSTALL_DEV-"--no-dev"} --prefer-dist --optimize-autoloader --no-interaction 2>&1 | indent
+cat "$COMPOSER" | python -c 'import sys,json; sys.exit(not json.load(sys.stdin));' && /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar install ${HEROKU_PHP_INSTALL_DEV-"--no-dev"} --prefer-dist --optimize-autoloader --no-interaction 2>&1 | indent
 
 status "dependencies phase 5 finished"
 /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar show --installed heroku/heroku-buildpack-php &> /dev/null && error "Your '$COMPOSER' requires 'heroku/heroku-buildpack-php'.
