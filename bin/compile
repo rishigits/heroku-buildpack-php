@@ -113,7 +113,7 @@ export LD_LIBRARY_PATH=/app/.heroku/php-min/lib:/app/.heroku/php-min/usr/lib
 
 # this alias is just for now while we install platform packages
 composer() {
-    /app/.heroku/php-min/bin/php /app/.heroku/php/bin/composer "$@"
+    '/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so' /app/.heroku/php/bin/composer "$@"
 }
 export -f composer
 status "exported composer..."
