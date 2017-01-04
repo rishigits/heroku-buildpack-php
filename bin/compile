@@ -118,7 +118,7 @@ status "exported composer..."
 #rishi composer_vendordir=$(composer config vendor-dir)
 #rishi composer_bindir=$(composer config bin-dir)
 cp -r /app/.heroku/php-min/lib/php /lib/
-ls -al
+status "`ls -al`"
 composer_vendordir=$(/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so config vendor-dir)
 composer_bindir=$(/app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so config bin-dir)
 
