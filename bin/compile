@@ -220,6 +220,7 @@ if [[ -f "composer.phar" ]]; then
     /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar --version 2>&1 | grep "^Composer version" > /dev/null || error "File '/composer.phar' is not a Composer executable!"
     notice_inline "Using '/composer.phar' to install dependencies."
 fi
+status "dependencies phase 1 finished"
 # echo composer version for info purposes
 # tail to get rid of outdated version warnings (Composer sends those to STDOUT instead of STDERR)
 /app/.heroku/php-min/bin/php -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/phar.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/iconv.so -d extension=/app/.heroku/php-min/lib/php/extensions/no-debut-non-zts-20151012/json.so /app/.heroku/php/composer.phar --version 2> /dev/null | tail -n 1 | indent
