@@ -101,11 +101,15 @@ ln -s $build_dir/.heroku/php-min /app/.heroku/php-min
 curl_retry_on_18 --silent --location -o $build_dir/.heroku/php-min.tar.gz "http://9.26.155.191/s390x/buildpacks/php-min-7.0.14.tar.gz" || error "Failed to download minimal PHP for bootstrapping.
 Please try again, or contact support if this problem persists."
 tar xzf $build_dir/.heroku/php-min.tar.gz -C $build_dir/.heroku/php-min
+#rishi -> untar in root directory also so that libs are present
+tar xzf $build_dir/.heroku/php-min.tar.gz -C /
 rm $build_dir/.heroku/php-min.tar.gz
 status "Downloaded and extracted php-min.tar.gz..."
 #rishi -> use internal http server
 curl_retry_on_18 --silent --location -o $build_dir/.heroku/composer.tar.gz "http://9.26.155.191/s390x/buildpacks/composer-1.2.4.tar.gz" || error "Failed to download Composer. Please try again, or contact support if this problem persists."
 tar xzf $build_dir/.heroku/composer.tar.gz -C $build_dir/.heroku/php
+#rishi -> untar in root directory also so that libs are present
+tar xzf $build_dir/.heroku/composer.tar.gz -C /
 rm $build_dir/.heroku/composer.tar.gz
 status "Downloaded and extracted composer.tar.gz..."
 
